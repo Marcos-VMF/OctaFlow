@@ -1,0 +1,30 @@
+-- Criando o banco de dados
+CREATE DATABASE IF NOT EXISTS octaflow_bd;
+USE octaflow_bd;
+
+CREATE TABLE empresas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE sistemas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    link_download VARCHAR(255)
+);
+
+CREATE TABLE empresa_sistemas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    empresa_id INT,
+    sistema_id INT,
+    FOREIGN KEY (empresa_id) REFERENCES empresas(id) ON DELETE CASCADE,
+    FOREIGN KEY (sistema_id) REFERENCES sistemas(id) ON DELETE CASCADE
+);
+
+select*from sistemas;
+
+SELECT e.nome AS empresa, s.nome AS sistema, s.link_download 
+FROM empresa_sistemas es
+JOIN empresas e ON es.empresa_id = e.id
+JOIN sistemas s ON es.sistema_id = s.id
+ORDER BY e.nome;
