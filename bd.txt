@@ -21,10 +21,28 @@ CREATE TABLE empresa_sistemas (
     FOREIGN KEY (sistema_id) REFERENCES sistemas(id) ON DELETE CASCADE
 );
 
-select*from sistemas;
+CREATE TABLE checklists (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    empresa_id INT,
+    data DATE,
+    ticket VARCHAR(50),
+    nome_pre_formatacao VARCHAR(255),
+    nome_pos_formatacao VARCHAR(255),
+    usuario_antigo VARCHAR(255),
+    usuario_novo VARCHAR(255),
+    procedimento_inicial TEXT,
+    sistema_operacional TEXT,
+    backup TEXT,
+    local_salvamento VARCHAR(255),
+    FOREIGN KEY (empresa_id) REFERENCES empresas(id) ON DELETE CASCADE
+);
 
-SELECT e.nome AS empresa, s.nome AS sistema, s.link_download 
-FROM empresa_sistemas es
-JOIN empresas e ON es.empresa_id = e.id
-JOIN sistemas s ON es.sistema_id = s.id
-ORDER BY e.nome;
+CREATE TABLE checklist_sistemas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    checklist_id INT,
+    sistema_id INT,
+    FOREIGN KEY (checklist_id) REFERENCES checklists(id) ON DELETE CASCADE,
+    FOREIGN KEY (sistema_id) REFERENCES sistemas(id) ON DELETE CASCADE
+);
+
+

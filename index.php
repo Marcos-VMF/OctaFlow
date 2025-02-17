@@ -32,8 +32,8 @@
                 Checklists
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="php/checklists/listar_empresas.php">Nova Checklist</a></li>
-                <li><a class="dropdown-item" href="">Checklists</a></li>
+                <li><a class="dropdown-item" href="php/checklists/checklist.php">Nova Checklist</a></li>
+                <li><a class="dropdown-item" href="php/checklists/listar_checklists.php">Checklists</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -49,5 +49,9 @@
         </div>
       </div>
     </nav>
+    <?php
+    include 'php\checklists\listar_checklists.php';
+
+    ?>
   </body>
 </html>
