@@ -107,6 +107,15 @@ $empresas = $conn->query("SELECT * FROM empresas ORDER BY nome ASC");
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Manutenção
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="php/manutencoes/form_manutencao.php">+ Checklist Manutenção</a></li>
+                <li><a class="dropdown-item" href="php/manutencoes/listar_checklists.php">Checklists Manutenção</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Checklists
               </a>
               <ul class="dropdown-menu">

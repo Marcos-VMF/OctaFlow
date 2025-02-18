@@ -45,4 +45,23 @@ CREATE TABLE checklist_sistemas (
     FOREIGN KEY (sistema_id) REFERENCES sistemas(id) ON DELETE CASCADE
 );
 
-
+-- Criando a tabela de checklists de manutenção
+CREATE TABLE checklists_manutencao (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    empresa_id INT NOT NULL,
+    data DATE NOT NULL,
+    ticket VARCHAR(50) NOT NULL,
+    equipamento ENUM('computador', 'notebook', 'servidor') NOT NULL,
+    modelo VARCHAR(255),
+    acompanha_carregador BOOLEAN DEFAULT FALSE,
+    nome_maquina VARCHAR(255),
+    nao_tem_nome BOOLEAN DEFAULT FALSE,
+    processador VARCHAR(255),
+    memoria_ram INT,
+    armazenamento_tipo ENUM('hd', 'ssd', 'nenhum'),
+    capacidade_armazenamento INT,
+    defeitos TEXT,
+    servicos_realizados TEXT,
+    observacoes TEXT,
+    FOREIGN KEY (empresa_id) REFERENCES empresas(id) ON DELETE CASCADE
+);
