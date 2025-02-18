@@ -122,6 +122,10 @@ $empresas = $conn->query("SELECT * FROM empresas ORDER BY nome ASC");
     </style>
 </head>
 <body>
+<?php if (isset($_GET['msg'])): ?>
+    <p style="color: green;"><?= htmlspecialchars($_GET['msg']) ?></p>
+<?php endif; ?>
+
 
 <div class="container">
     <h2>Checklists</h2>
