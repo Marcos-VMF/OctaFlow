@@ -1,5 +1,6 @@
 <?php
 include '../bd/conexao.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/OctaFlow/navbar.php';
 
 if (isset($_GET['id'])) {
     $sistema_id = $_GET['id'];

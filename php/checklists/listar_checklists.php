@@ -1,5 +1,7 @@
 <?php
 include '../bd/conexao.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/OctaFlow/navbar.php';
+
 
 // Filtros
 $empresa_id = isset($_GET['empresa_id']) ? $_GET['empresa_id'] : '';

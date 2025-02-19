@@ -1,26 +1,21 @@
 <?php
 include '../bd/conexao.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/OctaFlow/navbar.php';
 
-if (isset($_GET['id'])) {
-    $id = intval($_GET['id']);
-    $query = "SELECT cm.*, e.nome AS empresa_nome FROM checklists_manutencao cm
-              JOIN empresas e ON cm.empresa_id = e.id
-              WHERE cm.id = ?";
-    
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    if ($result->num_rows > 0) {
-        $checklist = $result->fetch_assoc();
-    } else {
-        echo "<p>Checklist não encontrada.</p>";
-        exit;
-    }
-} else {
-    echo "<p>ID não fornecido.</p>";
-    exit;
+$id = $_GET['id'];
+
+$query = "SELECT cm.*, e.nome AS empresa 
+          FROM checklists_manutencao cm 
+          JOIN empresas e ON cm.empresa_id = e.id 
+          WHERE cm.id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+$checklist = $result->fetch_assoc();
+
+if (!$checklist) {
+    die("Checklist não encontrado.");
 }
 ?>
 
@@ -29,58 +24,84 @@ if (isset($_GET['id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualizar Checklist</title>
+    <title>Ver Checklist</title>
     <style>
-        .modal {
-            display: flex;
-            position: fixed;
-            top: 0;
-            left: 0;
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        .details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .details p {
+            margin: 0;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+        .details p strong {
+            color: #555;
+        }
+        .back-button {
+            display: block;
             width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            align-items: center;
-            justify-content: center;
+            text-align: center;
+            margin-top: 20px;
         }
-        .modal-content {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            width: 600px;
-            max-width: 90%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .close-btn {
-            background: red;
+        .back-button button {
+            padding: 10px 20px;
+            background-color: #007bff;
             color: white;
             border: none;
-            padding: 10px;
+            border-radius: 5px;
             cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
+            font-size: 16px;
+        }
+        .back-button button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <div class="modal">
-        <div class="modal-content">
-            <h2>Checklist de Manutenção</h2>
-            <p><strong>Empresa:</strong> <?= htmlspecialchars($checklist['empresa_nome']); ?></p>
+    <div class="container">
+        <h2>Detalhes do Checklist</h2>
+        <div class="details">
             <p><strong>Data:</strong> <?= htmlspecialchars($checklist['data']); ?></p>
             <p><strong>Ticket:</strong> <?= htmlspecialchars($checklist['ticket']); ?></p>
+            <p><strong>Empresa:</strong> <?= htmlspecialchars($checklist['empresa']); ?></p>
             <p><strong>Equipamento:</strong> <?= htmlspecialchars($checklist['equipamento']); ?></p>
-            <p><strong>Modelo:</strong> <?= htmlspecialchars($checklist['modelo'] ?: 'N/A'); ?></p>
+            <p><strong>Modelo:</strong> <?= htmlspecialchars($checklist['modelo']); ?></p>
             <p><strong>Acompanha Carregador:</strong> <?= $checklist['acompanha_carregador'] ? 'Sim' : 'Não'; ?></p>
-            <p><strong>Nome da Máquina:</strong> <?= htmlspecialchars($checklist['nome_maquina'] ?: 'N/A'); ?></p>
-            <p><strong>Sem Nome:</strong> <?= $checklist['nao_tem_nome'] ? 'Sim' : 'Não'; ?></p>
-            <p><strong>Processador:</strong> <?= htmlspecialchars($checklist['processador'] ?: 'N/A'); ?></p>
-            <p><strong>Memória RAM:</strong> <?= htmlspecialchars($checklist['memoria_ram'] ? $checklist['memoria_ram'] . ' GB' : 'N/A'); ?></p>
-            <p><strong>Armazenamento:</strong> <?= htmlspecialchars($checklist['armazenamento_tipo'] ?: 'N/A'); ?></p>
-            <p><strong>Capacidade:</strong> <?= htmlspecialchars($checklist['capacidade_armazenamento'] ? $checklist['capacidade_armazenamento'] . ' GB' : 'N/A'); ?></p>
-            <p><strong>Defeitos:</strong> <?= nl2br(htmlspecialchars($checklist['defeitos'] ?: 'N/A')); ?></p>
-            <p><strong>Serviços Realizados:</strong> <?= nl2br(htmlspecialchars($checklist['servicos_realizados'] ?: 'N/A')); ?></p>
-            <p><strong>Observações:</strong> <?= nl2br(htmlspecialchars($checklist['observacoes'] ?: 'N/A')); ?></p>
-            <button class="close-btn" onclick="window.history.back();">Fechar</button>
+            <p><strong>Nome da Máquina:</strong> <?= htmlspecialchars($checklist['nome_maquina']); ?></p>
+            <p><strong>Processador:</strong> <?= htmlspecialchars($checklist['processador']); ?></p>
+            <p><strong>Memória RAM:</strong> <?= htmlspecialchars($checklist['memoria_ram']); ?> GB</p>
+            <p><strong>Tipo de Armazenamento:</strong> <?= htmlspecialchars($checklist['armazenamento_tipo']); ?></p>
+            <p><strong>Capacidade de Armazenamento:</strong> <?= htmlspecialchars($checklist['capacidade_armazenamento']); ?> GB</p>
+            <p><strong>Defeitos:</strong> <?= htmlspecialchars($checklist['defeitos']); ?></p>
+            <p><strong>Serviços Realizados:</strong> <?= htmlspecialchars($checklist['servicos_realizados']); ?></p>
+            <p><strong>Observações:</strong> <?= htmlspecialchars($checklist['observacoes']); ?></p>
+        </div>
+        <div class="back-button">
+            <button onclick="window.location.href='listar_checklists.php'">Voltar</button>
         </div>
     </div>
 </body>

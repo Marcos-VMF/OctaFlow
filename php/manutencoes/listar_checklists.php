@@ -1,3 +1,35 @@
+<?php
+    include '../bd/conexao.php';
+    include $_SERVER['DOCUMENT_ROOT'] . '/OctaFlow/navbar.php';
+
+    // Captura os parâmetros de filtro da URL
+    $empresa_id = isset($_GET['empresa']) ? intval($_GET['empresa']) : null;
+    $data = isset($_GET['data']) ? $_GET['data'] : null;
+    $search = isset($_GET['search']) ? $_GET['search'] : null;
+
+    // Construir a consulta base
+    $query_checklists = "SELECT c.id, c.data, c.ticket, e.nome AS empresa, c.equipamento 
+                        FROM checklists_manutencao c 
+                        JOIN empresas e ON c.empresa_id = e.id 
+                        WHERE 1=1";
+
+    // Adicionar filtros à consulta
+    if ($empresa_id) {
+        $query_checklists .= " AND c.empresa_id = $empresa_id";
+    }
+    if ($data) {
+        $query_checklists .= " AND c.data = '$data'";
+    }
+    if ($search) {
+        $query_checklists .= " AND (c.ticket LIKE '%$search%' OR e.nome LIKE '%$search%')";
+    }
+
+    // Ordenar os resultados
+    $query_checklists .= " ORDER BY c.data DESC";
+
+    // Executar a consulta
+    $result_checklists = $conn->query($query_checklists);
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -5,6 +37,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listagem de Checklists</title>
     <style>
+        
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
@@ -67,17 +100,19 @@
             <select name="empresa" id="empresa">
                 <option value="">Todas as Empresas</option>
                 <?php 
-                include '../bd/conexao.php';
                 $query_empresas = "SELECT * FROM empresas ORDER BY nome ASC";
                 $result_empresas = $conn->query($query_empresas);
                 while ($empresa = $result_empresas->fetch_assoc()) { 
                 ?>
-                    <option value="<?= $empresa['id']; ?>"><?= htmlspecialchars($empresa['nome']); ?></option>
+                    <option value="<?= $empresa['id']; ?>" <?= ($empresa_id == $empresa['id']) ? 'selected' : ''; ?>>
+                        <?= htmlspecialchars($empresa['nome']); ?>
+                    </option>
                 <?php } ?>
             </select>
-            <input type="date" id="data" name="data">
-            <input type="text" id="search" placeholder="Buscar por Nome ou Ticket">
+            <input type="date" id="data" name="data" value="<?= $data ?>">
+            <input type="text" id="search" placeholder="Buscar por Nome ou Ticket" value="<?= $search ?>">
             <button onclick="filtrarChecklists()">Filtrar</button>
+            <button onclick="limparFiltros()">Limpar Filtros</button> <!-- Botão novo -->
         </div>
         <table>
             <thead>
@@ -91,9 +126,6 @@
             </thead>
             <tbody>
                 <?php 
-                $query_checklists = "SELECT c.id, c.data, c.ticket, e.nome AS empresa, c.equipamento FROM checklists_manutencao c 
-                                    JOIN empresas e ON c.empresa_id = e.id ORDER BY c.data DESC";
-                $result_checklists = $conn->query($query_checklists);
                 while ($checklist = $result_checklists->fetch_assoc()) { 
                 ?>
                     <tr>
@@ -121,6 +153,10 @@
             window.location.href = `listar_checklists.php?empresa=${empresa}&data=${data}&search=${search}`;
         }
 
+        function limparFiltros() {
+            window.location.href = "listar_checklists.php"; // Redireciona sem parâmetros
+        }
+
         function verChecklist(id) {
             window.location.href = `ver_checklist.php?id=${id}`;
         }
@@ -138,6 +174,6 @@
         function exportarPDF(id) {
             window.location.href = `exportar_pdf.php?id=${id}`;
         }
-    </script>
+</script>
 </body>
 </html>

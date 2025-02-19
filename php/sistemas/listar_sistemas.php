@@ -1,5 +1,6 @@
 <?php
 include '../bd/conexao.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/OctaFlow/navbar.php';
 
 // Buscar todos os sistemas cadastrados
 $query = "SELECT * FROM sistemas ORDER BY id ASC";

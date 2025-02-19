@@ -1,5 +1,6 @@
 <?php
 include '../bd/conexao.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/OctaFlow/navbar.php';
 
 // Buscar sistemas já registrados
 $sistemas_query = "SELECT * FROM sistemas";

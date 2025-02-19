@@ -1,3 +1,5 @@
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/OctaFlow/navbar.php'; ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -133,8 +135,8 @@
                 <label>Memória RAM (GB):</label>
                 <input type="text" name="memoria_ram">
                 <label>Armazenamento:</label>
-                <select name="armazenamento_tipo" id="armazenamento_tipo" onchange="toggleCapacidade()">
-                    <option value="">Selecione</option>
+                <select name="armazenamento_tipo" id="armazenamento_tipo" onchange="toggleCapacidade()" required>
+                    <option value="nenhum">Selecione</option> <!-- Default to 'nenhum' -->
                     <option value="hd">HD</option>
                     <option value="ssd">SSD</option>
                     <option value="nenhum">Nenhum</option>

@@ -1,5 +1,6 @@
 <?php
 include '../bd/conexao.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/OctaFlow/navbar.php';
 
 // Buscar todas as empresas
 $query_empresas = "SELECT * FROM empresas ORDER BY nome ASC";
