@@ -16,7 +16,7 @@ $result = $conn->query($query);
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #eef2f3;
+            background-color:rgb(53, 53, 53);
             margin: 0;
             padding: 0;
         }
@@ -24,13 +24,13 @@ $result = $conn->query($query);
             max-width: 800px;
             margin: 50px auto;
             padding: 20px;
-            background: #fff;
+            background-color:rgb(94, 94, 94);
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         h2 {
             text-align: center;
-            color: #333;
+            color: #fff;
         }
         table {
             width: 100%;
@@ -41,15 +41,18 @@ $result = $conn->query($query);
             padding: 10px;
             border: 1px solid #ddd;
             text-align: center;
+            color: #fff;
+            font-weight: 700;
         }
         th {
             background-color: #f4f4f4;
+            color: #000;
         }
         .btn {
-            padding: 8px 12px;
+            padding: 2px 5px;
             margin: 2px;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
             border: none;
         }
@@ -64,7 +67,7 @@ $result = $conn->query($query);
         .btn-add {
             display: block;
             width: fit-content;
-            background-color: #28a745;
+            background: linear-gradient(90deg, #00bcd4, #8e44ad);
             color: #fff;
             margin: 20px auto;
             padding: 10px 15px;
@@ -94,7 +97,7 @@ $result = $conn->query($query);
             <?php } ?>
         </table>
 
-        <a href="formulario_empresa.php" class="btn btn-add">Cadastrar Nova Empresa</a>
+        <a href="formulario_empresa.php" class="btn btn-add" >Cadastrar Nova Empresa</a>
     </div>
 
 </body>
