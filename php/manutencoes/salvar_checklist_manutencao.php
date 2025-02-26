@@ -48,4 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     echo "<script>alert('Método inválido.'); history.back();</script>";
 }
+
+
+    header("Location: listar_checklists.php");
 ?>

@@ -40,6 +40,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    echo "Empresa e sistemas registrados com sucesso!";
+    // Redirecionar para a página de listagem após o processamento
+    header("Location: listar_empresas.php");
+    exit();
+} else {
+    // Se alguém tentar acessar diretamente este arquivo, redirecionar para a listagem
+    header("Location: listar_empresas.php");
+    exit();
 }
 ?>

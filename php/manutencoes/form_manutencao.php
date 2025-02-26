@@ -6,66 +6,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checklist de Manutenção</title>
+    <link href='//fonts.googleapis.com/css?family=Montserrat:thin,extra-light,light,100,200,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
     <style>
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #242424;
+            --bg-tertiary: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent-primary: #00c6ff;
+            --accent-secondary: #0072ff;
+            --border-color: #333333;
+            --danger: #dc3545;
+            --success: #28a745;
+            --warning: #ffc107;
+            --info: #17a2b8;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
             margin: 0;
             padding: 0;
+            line-height: 1.6;
         }
+
         .container {
             max-width: 800px;
             margin: 50px auto;
             padding: 20px;
-            background: #fff;
+            background: var(--bg-secondary);
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
         h2 {
             text-align: center;
-            color: #333;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.5rem;
         }
+
         .section {
             margin-bottom: 15px;
             padding: 15px;
             border-radius: 5px;
-            background: #fafafa;
+            background: var(--bg-tertiary);
         }
+
         label {
             font-weight: bold;
             display: block;
             margin-bottom: 5px;
+            color: var(--text-primary);
         }
+
         input, textarea, select {
             width: 100%;
             padding: 8px;
-            border: 1px solid #ccc;
+            border: 1px solid var(--border-color);
             border-radius: 5px;
             margin-top: 5px;
             box-sizing: border-box;
+            background: var(--bg-primary);
+            color: var(--text-primary);
         }
+
         textarea {
             height: 80px;
         }
+
         button {
             display: block;
             width: 100%;
             padding: 10px;
-            background-color: #007bff;
+            background-color: var(--accent-secondary);
             color: white;
             border: none;
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
         }
+
         button:hover {
-            background-color: #0056b3;
+            background-color: var(--accent-primary);
         }
+
         .inline-group {
             display: flex;
             align-items: center;
             gap: 10px;
             flex-wrap: wrap;
+        }
+
+        input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-primary);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        input[type="checkbox"]:checked {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 14px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        input[type="checkbox"]:focus {
+            outline: none;
+            border-color: var(--accent-primary);
         }
     </style>
     <script>

@@ -25,83 +25,191 @@ if (!$checklist) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver Checklist</title>
+    <link href='//fonts.googleapis.com/css?family=Montserrat:thin,extra-light,light,100,200,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
     <style>
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #242424;
+            --bg-tertiary: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent-primary: #00c6ff;
+            --accent-secondary: #0072ff;
+            --border-color: #333333;
+            --danger: #dc3545;
+            --success: #28a745;
+            --warning: #ffc107;
+            --info: #17a2b8;
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-primary);
             margin: 0;
             padding: 0;
-            color: #333;
+            color: var(--text-primary);
+            line-height: 1.6;
         }
+
         .container {
             max-width: 800px;
             margin: 50px auto;
-            padding: 30px;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
         }
+
+        .card {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 20px;
+        }
+
         h2 {
             text-align: center;
-            color: #007bff;
-            margin-bottom: 20px;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+            font-weight: 600;
+            font-size: 1.5rem;
         }
+
         .details {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
         }
-        .details p {
-            margin: 0;
-            padding: 10px;
-            background: #f9f9f9;
-            border-radius: 8px;
-            border: 1px solid #eee;
+
+        .detail-item {
+            background: var(--bg-tertiary);
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
         }
-        .details p strong {
-            color: #555;
+
+        .detail-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 4px;
         }
-        .back-button {
-            display: block;
-            width: 100%;
-            text-align: center;
-            margin-top: 20px;
+
+        .detail-value {
+            color: var(--text-primary);
+            font-size: 0.95rem;
         }
-        .back-button button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
+
+        .btn {
+            padding: 8px 16px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Montserrat', sans-serif;
+            text-decoration: none;
+            min-width: 100px;
+            justify-content: center;
         }
-        .back-button button:hover {
-            background-color: #0056b3;
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-secondary), var(--accent-primary));
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .details {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Detalhes do Checklist</h2>
-        <div class="details">
-            <p><strong>Data:</strong> <?= htmlspecialchars($checklist['data']); ?></p>
-            <p><strong>Ticket:</strong> <?= htmlspecialchars($checklist['ticket']); ?></p>
-            <p><strong>Empresa:</strong> <?= htmlspecialchars($checklist['empresa']); ?></p>
-            <p><strong>Equipamento:</strong> <?= htmlspecialchars($checklist['equipamento']); ?></p>
-            <p><strong>Modelo:</strong> <?= htmlspecialchars($checklist['modelo']); ?></p>
-            <p><strong>Acompanha Carregador:</strong> <?= $checklist['acompanha_carregador'] ? 'Sim' : 'Não'; ?></p>
-            <p><strong>Nome da Máquina:</strong> <?= htmlspecialchars($checklist['nome_maquina']); ?></p>
-            <p><strong>Processador:</strong> <?= htmlspecialchars($checklist['processador']); ?></p>
-            <p><strong>Memória RAM:</strong> <?= htmlspecialchars($checklist['memoria_ram']); ?> GB</p>
-            <p><strong>Tipo de Armazenamento:</strong> <?= htmlspecialchars($checklist['armazenamento_tipo']); ?></p>
-            <p><strong>Capacidade de Armazenamento:</strong> <?= htmlspecialchars($checklist['capacidade_armazenamento']); ?> GB</p>
-            <p><strong>Defeitos:</strong> <?= htmlspecialchars($checklist['defeitos']); ?></p>
-            <p><strong>Serviços Realizados:</strong> <?= htmlspecialchars($checklist['servicos_realizados']); ?></p>
-            <p><strong>Observações:</strong> <?= htmlspecialchars($checklist['observacoes']); ?></p>
-        </div>
-        <div class="back-button">
-            <button onclick="window.location.href='listar_checklists.php'">Voltar</button>
+        <div class="card">
+            <h2>Detalhes do Checklist</h2>
+            <div class="details">
+                <div class="detail-item">
+                    <div class="detail-label">Data</div>
+                    <div class="detail-value"><?= htmlspecialchars($checklist['data']); ?></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Ticket</div>
+                    <div class="detail-value"><?= htmlspecialchars($checklist['ticket']); ?></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Empresa</div>
+                    <div class="detail-value"><?= htmlspecialchars($checklist['empresa']); ?></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Equipamento</div>
+                    <div class="detail-value"><?= htmlspecialchars($checklist['equipamento']); ?></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Modelo</div>
+                    <div class="detail-value"><?= htmlspecialchars($checklist['modelo']); ?></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Acompanha Carregador</div>
+                    <div class="detail-value"><?= $checklist['acompanha_carregador'] ? 'Sim' : 'Não'; ?></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Nome da Máquina</div>
+                    <div class="detail-value"><?= htmlspecialchars($checklist['nome_maquina']); ?></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Processador</div>
+                    <div class="detail-value"><?= htmlspecialchars($checklist['processador']); ?></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Memória RAM</div>
+                    <div class="detail-value"><?= htmlspecialchars($checklist['memoria_ram']); ?> GB</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Tipo de Armazenamento</div>
+                    <div class="detail-value"><?= htmlspecialchars($checklist['armazenamento_tipo']); ?></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Capacidade de Armazenamento</div>
+                    <div class="detail-value"><?= htmlspecialchars($checklist['capacidade_armazenamento']); ?> GB</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Defeitos</div>
+                    <div class="detail-value"><?= htmlspecialchars($checklist['defeitos']); ?></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Serviços Realizados</div>
+                    <div class="detail-value"><?= htmlspecialchars($checklist['servicos_realizados']); ?></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Observações</div>
+                    <div class="detail-value"><?= htmlspecialchars($checklist['observacoes']); ?></div>
+                </div>
+            </div>
+            <div class="actions">
+                <a href="listar_checklists.php" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </a>
+            </div>
         </div>
     </div>
 </body>
